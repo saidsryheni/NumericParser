@@ -20,16 +20,22 @@ bool Parser::precalc() {
 }
 
 int Parser::getLastSumOrSubtractionIndex(int begin, int end) {
+    int brackets = 0;
     while(begin <= end){
-        if(Checker::isSum(str[end]) || Checker::isSubtract(str[end])) return end;
+        if(Checker::isCloseBracket(str[end])) brackets++;
+        else if(Checker::isOpenBracket(str[end])) brackets--;
+        else if(brackets == 0 && (Checker::isSum(str[end]) || Checker::isSubtract(str[end]))) return end;
         end--;
     }
     return -1;
 }
 
 int Parser::getLastMultiplicationOrDivisionIndex(int begin, int end) {
+    int brackets = 0;
     while(begin <= end){
-        if(Checker::isMultiplication(str[end]) || Checker::isDivision(str[end])) return end;
+        if(Checker::isCloseBracket(str[end])) brackets++;
+        else if(Checker::isOpenBracket(str[end])) brackets--;
+        else if(brackets == 0 && (Checker::isMultiplication(str[end]) || Checker::isDivision(str[end]))) return end;
         end--;
     }
     return -1;
